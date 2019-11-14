@@ -1,14 +1,24 @@
+(defparameter *welcome-message*
+    "The day has finally arrived! You've saved up your money and are finally in \
+    the world's greatest escape room! Now to just figure out how to get out... \
+    Just let me know what you want to do and I'll help you do it."
+
+)
+
 (defun rule-pattern (rule) (first rule))
 (defun rule-responses (rule) (rest rule))
 
 (defun game ()
   "Respond to user input using pattern matching rules."
-  (loop
-    (print 'game>)
-    (let* ((input (read-line-no-punct))
-           (response (flatten (use-rules input))))
-      (print-with-spaces response)
-      (if (equal response '(good bye)) (RETURN)))))
+  (progn
+    (print *welcome-message*)
+    (loop
+        (print 'game>)
+        (let* ((input (read-line-no-punct))
+            (response (flatten (use-rules input))))
+        (print-with-spaces response)
+        (if (equal response '(good bye)) (RETURN)))))  
+  )
 
 (defun use-rules (input)
   "Find some rule with which to transform the input."
