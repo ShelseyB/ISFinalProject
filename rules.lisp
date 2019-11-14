@@ -1,26 +1,14 @@
 (defun rule-pattern (rule) (first rule))
 (defun rule-responses (rule) (rest rule))
 
-(defun read-line-no-punct ()
-  "Read an input line, ignoring punctuation."
-  (read-from-string
-    (concatenate 'string "(" (substitute-if #\space #'punctuation-p
-                                            (read-line))
-                 ")")))
-
-(defun punctuation-p (char) (find char ".,;:`!?#-()\\\""))
-
-(defun print-with-spaces (list)
-  (mapc #'(lambda (x) (prin1 x) (princ " ")) list))
-
-(defun print-with-spaces (list)
-  (format t "~{~a ~}" list))
-
 (defun game ()
   "Respond to user input using pattern matching rules."
   (loop
     (print 'game>)
-    (write (flatten (use-rules (read))) :pretty t)))
+    (let* ((input (read-line-no-punct))
+           (response (flatten (use-rules input))))
+      (print-with-spaces response)
+      (if (equal response '(good bye)) (RETURN)))))
 
 (defun use-rules (input)
   "Find some rule with which to transform the input."
@@ -36,6 +24,21 @@
   (sublis '((I . you) (you . I) (me . you) (am . are))
           words))
 
+
+(defun read-line-no-punct ()
+  "Read an input line, ignoring punctuation."
+  (read-from-string
+    (concatenate 'string "(" (substitute-if #\space #'punctuation-p
+                                            (read-line))
+                 ")")))
+
+(defun punctuation-p (char) (find char ".,;:`!?#-()\\\""))
+
+(defun print-with-spaces (list)
+  (mapc #'(lambda (x) (prin1 x) (princ " ")) list))
+
+(defun print-with-spaces (list)
+  (format t "~{~a ~}" list))
 
 (defparameter *game-rules*
   '(
