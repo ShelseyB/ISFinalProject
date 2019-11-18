@@ -23,6 +23,7 @@
 (defun use-rules (input)
   "Find some rule with which to transform the input."
   (some #'(lambda (rule)
+            (print rule)
             (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
                   (sublis (switch-viewpoint result)
@@ -54,12 +55,21 @@
     '(start)
 )
 
+;; (defun get-state-rules ()
+;;     (loop for state in *cur-states*
+;;       (if (eq state start)
+;;         collect *start-rules*
+;;       )
+;;     )
+;; )
+
 (defun get-state-rules ()
+    (setf all-rules '())
     (loop for state in *cur-states*
-      (if (eq state 'start)
-        collect *start-rules*
-      )
+      when (eq state 'start)
+          do (setf all-rules (union all-rules *start-rules*))
     )
+    (print all-rules)
 )
 
 (defparameter *start-rules*
