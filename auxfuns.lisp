@@ -157,5 +157,5 @@ description: some aux funs for eliza.
 
 (defun random-elt (choices)
   "Choose an element from a list at random."
-  (elt choices (random (length choices))))
+  (elt choices (random (- (length choices) 1))))
 
