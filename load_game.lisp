@@ -8,7 +8,7 @@ CS 6600
   "./")
 
 (defparameter *game-files* 
-  '("auxfuns.lisp" "rules.lisp" 
+  '("auxfuns.lisp" "rules.lisp" "game.lisp"
     )) 
 
 (defun load-game (path files)
