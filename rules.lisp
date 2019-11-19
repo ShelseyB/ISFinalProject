@@ -22,13 +22,14 @@
 
 (defun use-rules (input)
   "Find some rule with which to transform the input."
+  ;; (print "in use rules")
   (some #'(lambda (rule)
             ;; (print rule)
             (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
                 (progn
-                  (print "in progn")
-                  (print rule)
+                  ;; (print "in progn")
+                  ;; (print rule)
                   (add-state (first (last rule)))
                   (sublis (switch-viewpoint result)
                           (random-elt (rule-responses rule)))
@@ -43,7 +44,7 @@
 
 (defun add-state (states-to-add)
   ;; (setf states-to-add (first states-to-add))
-  (print states-to-add)
+  ;; (print states-to-add)
   (if (not (null states-to-add))
     ;; (progn
     ;;   ;; (print "in the if statement")
@@ -85,7 +86,7 @@
       when (eq state 'start)
           do (setf all-rules (union all-rules *start-rules*))
     )
-    (print all-rules)
+    (return-from get-state-rules all-rules)
 )
 
 (defparameter *start-rules*
