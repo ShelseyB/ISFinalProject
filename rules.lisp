@@ -23,11 +23,17 @@
 (defun use-rules (input)
   "Find some rule with which to transform the input."
   (some #'(lambda (rule)
-            (print rule)
+            ;; (print rule)
             (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
+                (progn
+                  (print "in progn")
+                  (print rule)
                   (sublis (switch-viewpoint result)
-                          (random-elt (rule-responses rule))))))
+                          (random-elt (rule-responses rule)))
+                  (add-state (first (last rule)))
+                )
+              )))
         (get-state-rules)))
 
 (defun switch-viewpoint (words)
@@ -35,6 +41,23 @@
   (sublis '((I . you) (you . I) (me . you) (am . are))
           words))
 
+(defun add-state (states-to-add)
+  ;; (setf states-to-add (first states-to-add))
+  (print states-to-add)
+  (if (not (null states-to-add))
+    (progn
+      (print "in the if statement")
+      (defparameter *cur-states* (union *cur-states* states-to-add))
+    )
+    
+    '()
+  )
+  ;; (print "in add-state")
+  ;; (print states-to-add)
+  ;; (print *cur-states*)
+  ;; (defparameter *cur-states* (union *cur-states* states-to-add))
+  ;; (print *cur-states*)
+)
 
 (defun read-line-no-punct ()
   "Read an input line, ignoring punctuation."
@@ -55,14 +78,6 @@
     '(start)
 )
 
-;; (defun get-state-rules ()
-;;     (loop for state in *cur-states*
-;;       (if (eq state start)
-;;         collect *start-rules*
-;;       )
-;;     )
-;; )
-
 (defun get-state-rules ()
     (setf all-rules '())
     (loop for state in *cur-states*
@@ -77,48 +92,48 @@
         (((?* ?x) hello (?* ?y))      
         (Hello)
         (No time to lollygag"," we don"'"t have all day!)
-        '())
+        ())
 
         (((?* ?x) look around (?* ?y))      
         (In the room you see two doors"," one you came in through and the other that presumably leads to the next room.
         You see a desk and a chest. There"'"s an abstract painting on the wall with some colored lines. There is also a coat rack
         without coats... What else do you want to know?)
-        '())
+        ("1 2 3 4"))
 
         (((?* ?x) look at (?* ?y) desk)      
         (The desk has a book and a small globe on it.)
-        '())
+        (look-at-desk new-rule test))
 
         (((?* ?x) look at (?* ?y) painting)      
         (It is a pretty boring painting. Just five vertical lines that are blue"," purple"," red"," purple"," and yellow.)
-        '())
+        ())
 
         (((?* ?x) look at (?* ?y) coat rack)      
         (There is not much to say about the coat rack. It"'"s made of wood.)
-        '())
+        ())
 
         (((?* ?x) look at (?* ?y) chest)      
         (It"'"s a wooden chest. Has a handle.)
-        '())
+        ())
 
         (((?* ?x) look at (?* ?y))      
         (?y ? Did I say that was in the room? I do not recall...)
         (What are you talking about? I do not see a ?y)
-        '())
+        ())
 
         (((?* ?x) open (?* ?y) chest)      
         (Hey"," there"'"s a key in here! That was easy"," huh?)  ;(defparameter *cur-state* "key-1))
-        '())
+        ())
 
         (((?* ?x) hello (?* ?y))      
         (Hello)
         (No time to lollygag"," we don"'"t have all day!)
-        '())
+        ())
 
         (((?* ?x))
         (Hm... I am not sure about that.)
         (What do you want?)
-        '())
+        ())
     )
 )
 
