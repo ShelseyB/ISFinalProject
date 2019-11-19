@@ -31,6 +31,7 @@
                   ;; (print "in progn")
                   ;; (print rule)
                   (add-state (first (first (last rule))))
+                  (remove-states (rest (first (last rule))))
                   (sublis (switch-viewpoint result)
                           (random-elt (rule-responses rule)))
                 )
@@ -59,6 +60,14 @@
   (print *cur-states*)
   ;; (defparameter *cur-states* (union *cur-states* states-to-add))
   ;; (print *cur-states*)
+)
+
+(defun remove-states (to-remove)
+  (setf to-remove (first to-remove))
+  (loop for state in to-remove
+      do (defparameter *cur-states* (remove state *cur-states*))
+  )
+  (print *cur-states*)
 )
 
 (defun read-line-no-punct ()
@@ -94,7 +103,7 @@
         (((?* ?x) hello (?* ?y))      
         (Hello)
         (No time to lollygag"," we don"'"t have all day!)
-        (() ()))
+        (() (start)))
 
         (((?* ?x) look around (?* ?y))      
         (In the room you see two doors"," one you came in through and the other that presumably leads to the next room.
