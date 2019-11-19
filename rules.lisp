@@ -29,9 +29,9 @@
                 (progn
                   (print "in progn")
                   (print rule)
+                  (add-state (first (last rule)))
                   (sublis (switch-viewpoint result)
                           (random-elt (rule-responses rule)))
-                  (add-state (first (last rule)))
                 )
               )))
         (get-state-rules)))
@@ -45,11 +45,12 @@
   ;; (setf states-to-add (first states-to-add))
   (print states-to-add)
   (if (not (null states-to-add))
-    (progn
-      (print "in the if statement")
-      (defparameter *cur-states* (union *cur-states* states-to-add))
-    )
-    
+    ;; (progn
+    ;;   ;; (print "in the if statement")
+    ;;   (defparameter *cur-states* (union *cur-states* states-to-add))
+    ;;   ;; (print *cur-states*)
+    ;; )
+    (defparameter *cur-states* (union *cur-states* states-to-add))
     '()
   )
   ;; (print "in add-state")
