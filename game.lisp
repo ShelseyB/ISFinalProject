@@ -1,3 +1,9 @@
+#|
+game.lisp
+
+This file defines all of the game-specific functions.
+|#
+
 (defparameter *welcome-message*
     "The day has finally arrived! You've saved up your money and are finally in \
     the world's greatest escape room! Now to just figure out how to get out... \
@@ -96,7 +102,21 @@
     ;;       do (setf all-rules (union all-rules *start-rules*))
     ;; )
     (if (member 'first-room *cur-states*)
-      (setf all-rules (union all-rules *first-room-rules*))
+        (progn
+            (setf all-rules (union all-rules *first-room-rules*))
+            (if (member 'look-at-desk *cur-states*)
+                (setf all-rules (union all-rules *desk-rules*))
+            )
+            (if (member 'open-drawer *cur-states*)
+                (setf all-rules (union all-rules *open-drawer-rules*))
+            )
+            (if (or (member 'first-key *cur-states*) (member 'second-key *cur-states*))
+                (setf all-rules (union all-rules *already-key*))
+            )
+            (if (and (member 'first-key *cur-states*) (member 'second-key *cur-states*))
+                (setf all-rules (union all-rules *can-open-door*))
+            )
+        )
     )
     (setf all-rules (union all-rules *base-rules*))
     ;; (print all-rules)
