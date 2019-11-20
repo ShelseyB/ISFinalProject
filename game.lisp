@@ -118,6 +118,11 @@ This file defines all of the game-specific functions.
             )
         )
     )
+    (if (member 'second-room *cur-states*)
+        (progn
+            (setf all-rules (union all-rules *first-room-rules*))
+        )
+    )
     (setf all-rules (union all-rules *base-rules*))
     ;; (print all-rules)
     (return-from get-state-rules all-rules)
