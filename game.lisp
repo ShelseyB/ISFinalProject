@@ -118,9 +118,12 @@ This file defines all of the game-specific functions.
             )
         )
     )
+    (if (member 'first-door-open *cur-states*)
+        (setf all-rules (union all-rules *can-enter-next-room*))
+    )
     (if (member 'second-room *cur-states*)
         (progn
-            (setf all-rules (union all-rules *first-room-rules*))
+            (setf all-rules (union all-rules *second-room-rules*))
         )
     )
     (setf all-rules (union all-rules *base-rules*))

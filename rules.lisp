@@ -116,13 +116,17 @@ This file defines all of the sets of rules for the game.
     ((open-drawer) ()))
 
     
-    (((?* ?x) combination is (?* ?z) 2 (?* ?z1) 7 (?* ?z2) 9 (?* ?z3) 7 (?* ?z4) 5)      
+    (((?* ?x) combination (?* ?z) 2 (?* ?z1) 7 (?* ?z2) 9 (?* ?z3) 7 (?* ?z4) 5)      
     (That did it! There"'"s a key in there.)
     ((open-drawer) ()))
     
-    (((?* ?x) combination is 27975)      
+    (((?* ?x) combination 27975)      
     (That did it! There"'"s a key in there.)
     ((open-drawer) ()))
+    
+    (((?* ?x) combination (?* ?y))      
+    (Nope"," still locked...)
+    (() ()))
 
     (((?* ?x) open (?* ?y) drawer)      
     (It"'"s locked"," you need a five number combination to open it.)
@@ -149,15 +153,28 @@ This file defines all of the sets of rules for the game.
   )
 )
 
+(defparameter *can-enter-next-room*
+  '(
+    (((?* ?x) enter (?* ?y) room)      
+    (You are now in the second room)
+    ((second-room) (first-key second-key first-room)))
+
+    (((?* ?x) go through (?* ?y) door)      
+    (You are now in the second room)
+    ((second-room) (first-key second-key first-room)))
+  )
+)
+
 (defparameter *can-open-door*
   '(
     (((?* ?x) open (?* ?y) door)      
     (Perfect! You insert each key into a keyhole and they unlock the door.)
-    ((second-room) (first-room first-key second-key)))
+    ((first-door-open) (first-key second-key)))
 
     (((?* ?x) unlock (?* ?y) door)      
     (Perfect! You insert each key into a keyhole and they unlock the door.)
-    ((second-room) (first-room first-key second-key)))
+    ((first-door-open) (first-key second-key)))
+
   )
 )
 
@@ -167,7 +184,7 @@ This file defines all of the sets of rules for the game.
     '(
         (((?* ?x) look around (?* ?y))      
         (Once again"," it"'"s a pretty sparcely decorated room. There"'"s a portrait of a man on the wall","
-        a couch against the wall"," and a bookshelf full of books. Also"," the door you came in through and another door.)
+        a couch against the other wall"," and a bookshelf full of books. Also"," the door you came in through and another door.)
         (() ()))
 
         (((?* ?x) look at (?* ?y) portrait)      
