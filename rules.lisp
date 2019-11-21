@@ -157,11 +157,11 @@ This file defines all of the sets of rules for the game.
   '(
     (((?* ?x) enter (?* ?y) room)      
     (You are now in the second room)
-    ((second-room) (first-key second-key first-room)))
+    ((second-room) (first-key second-key first-room first-door-open)))
 
     (((?* ?x) go through (?* ?y) door)      
     (You are now in the second room)
-    ((second-room) (first-key second-key first-room)))
+    ((second-room) (first-key second-key first-room first-door-open)))
   )
 )
 
@@ -184,7 +184,8 @@ This file defines all of the sets of rules for the game.
     '(
         (((?* ?x) look around (?* ?y))      
         (Once again"," it"'"s a pretty sparcely decorated room. There"'"s a portrait of a man on the wall","
-        a couch against the other wall"," and a bookshelf full of books. Also"," the door you came in through and another door.)
+        a couch against the other wall"," and a bookshelf full of books. Also"," the door you came in through and another door.
+        Next to the couch is a sidetable with a lamp that is flickering on and off.)
         (() ()))
 
         (((?* ?x) look at (?* ?y) portrait)      
@@ -221,53 +222,193 @@ This file defines all of the sets of rules for the game.
         (((?* ?x) look at (?* ?y) bookshelf)      
         (It has the following books on it":" "\"Wuthering Heights\"," "\"Brave New World\"," "\"The Great Gatsby\","
         "\"Crime and Punishment\"," "\"Dracula\"," "\"Adventures of Huckleberry Finn\"," "\"Great Expectations\"," and "\"Razor's Edge\".")
+        ((look-at-bookshelf) ()))
+        
+        (((?* ?x) look at (?* ?y) door)      
+        (The door has a small numeric keypad next to it.)
         (() ()))
         
-        ;; (((?* ?x) look at (?* ?y) door)      
-        ;; (The door has two keyholes and a handle.)
-        ;; (() ()))
+        (((?* ?x0) 3722 (?* ?x) keypad (?* ?y))      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+
         
-        ;; (((?* ?x) go to (?* ?y) desk)      
-        ;; (The desk has a book and a small globe on it. There"'"s a locked drawer with a five-number combination.)
-        ;; ((look-at-desk) ()))
+        (((?* ?x) keypad (?* ?y) 3722)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
 
-        ;; (((?* ?x) go to (?* ?y) painting)      
-        ;; (It is a pretty boring painting. Just five vertical lines that are blue"," purple"," red"," purple"," and yellow.)
-        ;; (() ()))
-
-        ;; (((?* ?x) go to (?* ?y) coat rack)      
-        ;; (There is not much to say about the coat rack. It"'"s made of wood.)
-        ;; (() ()))
-
-        ;; (((?* ?x) go to (?* ?y) chest)      
-        ;; (It"'"s a wooden chest. Has a handle.)
-        ;; (() ()))
+        (((?* ?y4) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2 (?* ?x) keypad (?* ?y) )      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
         
-        ;; (((?* ?x) go to (?* ?y) other door)      
-        ;; (They locked it when you came in"," but they said if you knock three times they will let you out.)
-        ;; (You came in this way. You"'"re no quitter, keep searching!)
-        ;; (() ()))
+        (((?* ?x) keypad (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
         
-        ;; (((?* ?x) go to (?* ?y) door)      
-        ;; (The door has two keyholes and a handle.)
+        (((?* ?x) look at (?* ?y) lamp)      
+        (It"'"s flickering on and off. It"'"s kinda like short short short long long
+        long long short short short short short long long long short short long long long. 
+        It"'"s super annoying.)
+        (() ()))
+
+        ;; (((?* ?x) turn off (?* ?y) lamp)      
+        ;; (Okay it"'"s off.)
         ;; (() ()))
 
-        ;; (((?* ?x) look at (?* ?y))      
-        ;; (?y ? Did I say that was in the room? I do not recall...)
-        ;; (What are you talking about? I do not see a ?y)
-        ;; (() ()))
+        (((?* ?x) go to (?* ?y) sidetable)      
+        (The sidetable has a newspaper and a lamp on it.)
+        ((look-at-sidetable) ()))
         
-        ;; (((?* ?x) go to (?* ?y))      
-        ;; (?y ? Did I say that was in the room? I do not recall...)
-        ;; (What are you talking about? I do not see a ?y)
-        ;; (() ()))
-
-        ;; (((?* ?x) open (?* ?y) chest)      
-        ;; (Hey"," there"'"s a key in here! That was easy"," huh?)
-        ;; ((first-key) ()))
-
-        ;; (((?* ?x) look in (?* ?y) chest)      
-        ;; (Hey"," there"'"s a key in here! That was easy"," huh?)
-        ;; ((first-key) ()))
+        (((?* ?x) look at (?* ?y) sidetable)      
+        (The sidetable has a newspaper and a lamp on it.)
+        ((look-at-sidetable) ()))
     )
+)
+
+(defparameter *closet-unlocked-rules*
+  '(
+    
+        (((?* ?x) open (?* ?y) door)      
+        (You turn the doorknob and slowly open the door.)
+        ((closet-open) (closet-unlocked)))
+        
+        (((?* ?x) go through (?* ?y) door)      
+        (It"'"s still closed.)
+        (() ()))
+        
+        (((?* ?x) enter (?* ?y) room)      
+        (The door is still closed.)
+        (() ()))
+  )
+)
+
+(defparameter *closet-open-rules*
+  '(
+    
+        (((?* ?x) look in (?* ?y) room)      
+        (It"'"s... A closet. There"'"s a broom in here and everything.)
+        (() ()))
+        
+        (((?* ?x) go through (?* ?y) door)      
+        (It"'"s... A closet. There"'"s a broom in here and everything.)
+        (() ()))
+        
+        (((?* ?x) take (?* ?y) broom)      
+        (Yeah"," okay. You have the broom now. Have fun.)
+        (() ()))
+  )
+)
+
+#|
+Morse Code:
+1 - dot dash dash dash dash
+2 - dot dot dash dash dash
+3 - dot dot dot dash dash
+4 - dot dot dot dot dash
+5 - dot dot dot dot dot
+6 - dash dot dot dot dot
+7 - dash dash dot dot dot
+8 - dash dash dash dot dot
+9 - dash dash dash dash dot
+10 - dash dash dash dash dash
+|#
+
+(defparameter *sidetable-rules*
+  '(
+        (((?* ?x) look at (?* ?y) newspaper)      
+        (The headline "IS: Man Trapped in Ice." Hmm. Looks like there"'"s also an article on Morse Code.) 
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) newspaper)      
+        (The headline "IS: Man Trapped in Ice." Hmm. Looks like there"'"s also an article on Morse Code.) 
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) morse code)      
+        (Let"'"s see"," the article says":" "\"Morse Code is still important! Learn the numbers: \
+1 - * - - - -\
+2 - * * - - -\
+3 - * * * - -\
+4 - * * * * -\
+5 - * * * * *\
+6 - - * * * *\
+7 - - - * * *\
+8 - - - - * *\
+9 - - - - - *\
+10 - - - - - -\
+See, not too bad?\"") 
+        (() ()))
+  )
+)
+
+(defparameter *bookshelf-rules*
+  '(
+        (((?* ?x) take (?* ?y) Brave New World)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book1) ()))
+
+        (((?* ?x) take (?* ?y))      
+        (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() ()))
+  )
+)
+
+(defparameter *book1-rules*
+  '(        
+        (((?* ?x) take (?* ?y) Razor 's Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+
+        (((?* ?x) take (?* ?y))      
+        (The book won"'"t come out.)
+        (() (book1)))
+  )
+)
+
+(defparameter *book2-rules*
+  '(
+        (((?* ?x) take (?* ?y) Adventures of Huckleberry Finn)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book3) (book2)))
+
+        (((?* ?x) take (?* ?y))      
+        (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() (book2)))
+  )
+)
+
+(defparameter *book3-rules*
+  '(
+        (((?* ?x) take (?* ?y) Dracula)      
+        (You hear a clicking sound"," but the book won"'"t come out. The bookshelf
+        makes a whirring noise and moves to the side"," revealing a tunnel.)
+        ((open-trap-door) (book3)))
+
+        (((?* ?x) take (?* ?y))      
+        (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() (book3)))
+  )
+)
+
+(defparameter *trapdoor-rules*
+  '(
+        (((?* ?x) enter (?* ?y) tunnel)      
+        (You enter the tunnel.)
+        ((in-tunnel) (second-room)))
+        
+        (((?* ?x) into (?* ?y) tunnel)      
+        (You enter the tunnel.)
+        ((in-tunnel) (second-room)))
+
+        (((?* ?x) crawl through (?* ?y) tunnel)      
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (() (second-room)))
+  )
+)
+
+(defparameter *tunnel-rules*
+  '(
+        (((?* ?x) crawl through (?* ?y) tunnel)      
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (() ()))
+  )
 )
