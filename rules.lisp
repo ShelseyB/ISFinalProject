@@ -192,7 +192,7 @@ This file defines all of the sets of rules for the game.
   )
 )
 
-(defparameter *open-combo-rules*
+(defparameter *enter-combo-rules*
   '(
     (((?* ?x) 27975 (?* ?y))      
     (That did it! There"'"s a key in there.)
@@ -313,6 +313,14 @@ This file defines all of the sets of rules for the game.
         (First off"," gross. Second"," we don"'"t have time for that.)
         (Yeah okay"," you"'"ve been working hard and need a break.)
         (() ()))
+        
+        (((?* ?x) move (?* ?y) couch)      
+        (Ugh! It won"'"t budge.)
+        (() ()))
+        
+        (((?* ?x) push (?* ?y) couch)      
+        (Ugh! It won"'"t budge.)
+        (() ()))
 
         (((?* ?x) look at (?* ?y) bookshelf)      
         (It has the following books on it":" "\"Wuthering Heights\"," "\"Brave New World\"," "\"The Great Gatsby\","
@@ -349,6 +357,22 @@ This file defines all of the sets of rules for the game.
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
         
+        (((?* ?x0) enter (?* ?x) combination 3722 (?* ?y))      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+        
+        (((?* ?x0) enter (?* ?x) combination (?* ?y))      
+        (Okay"," what numbers?)
+        (() (enter-keypad-combo)))
+
+        (((?* ?x0) enter (?* ?x) numbers (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
+        (Okay"," what numbers?)
+        ((closet-unlocked) ()))        
+
+        (((?* ?x0) enter (?* ?x) numbers (?* ?y))      
+        (Okay"," what numbers?)
+        (() (enter-keypad-combo)))
+        
         (((?* ?x) look at (?* ?y) lamp)      
         (It"'"s flickering on and off. It"'"s kinda like short short short long long
         long long short short short short short long long long short short long long long. 
@@ -367,6 +391,23 @@ This file defines all of the sets of rules for the game.
         (The sidetable has a newspaper and a lamp on it.)
         ((look-at-sidetable) ()))
     )
+)
+
+(defparameter *enter-keypad-combo-rules*
+  '(
+        (((?* ?y4) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2 (?* ?x) )      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) (enter-keypad-combo)))
+        
+        (((?* ?x0) 3722 (?* ?x))      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) (enter-keypad-combo)))
+        
+        (((?* ?x0) )      
+        (No, still locked...)
+        (() (enter-keypad-combo)))
+
+  )
 )
 
 (defparameter *closet-unlocked-rules*
@@ -390,6 +431,10 @@ This file defines all of the sets of rules for the game.
   '(
     
         (((?* ?x) look in (?* ?y) room)      
+        (It"'"s... A closet. There"'"s just a broom in here)
+        (() ()))
+        
+        (((?* ?x) look into (?* ?y) room)      
         (It"'"s... A closet. There"'"s just a broom in here)
         (() ()))
 
@@ -519,7 +564,7 @@ See, not too bad?\"")
         
         (((?* ?x) take (?* ?y) book)      
         (Which book? There are"," like"," ten of them.)
-        ((book1) ()))
+        (() ()))
 
         (((?* ?x) take (?* ?y))      
         (The book won"'"t come out. It just tips backwards. You push it back in.)
@@ -531,7 +576,7 @@ See, not too bad?\"")
         
         (((?* ?x) grab (?* ?y) book)      
         (Which book? There are"," like"," ten of them.)
-        ((book1) ()))
+        (() ()))
 
         (((?* ?x) grab (?* ?y))      
         (The book won"'"t come out. It just tips backwards. You push it back in.)
@@ -639,6 +684,10 @@ See, not too bad?\"")
         (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
         (() (second-room)))
         
+        (((?* ?x) walk through (?* ?y) tunnel)      
+        (The ceiling"'"s too low. You"'"re going to have to crawl to get through it.)
+        (() ()))
+        
         (((?* ?x) go through (?* ?y) tunnel)      
         (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
         (() (second-room)))
@@ -649,6 +698,10 @@ See, not too bad?\"")
   '(
         (((?* ?x) crawl through (?* ?y) tunnel)      
         (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (() ()))
+
+        (((?* ?x) look around (?* ?y))      
+        (It"'"s really dark and you can"'"t see anything.)
         (() ()))
   )
 )
