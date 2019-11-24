@@ -404,7 +404,7 @@ This file defines all of the sets of rules for the game.
         ((closet-unlocked) (enter-keypad-combo)))
         
         (((?* ?x0) )      
-        (No, still locked...)
+        (No"," still locked...)
         (() (enter-keypad-combo)))
 
   )
