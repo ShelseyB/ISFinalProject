@@ -15,6 +15,35 @@ This file defines all of the sets of rules for the game.
         (?y ? Did I say that was in the room? I do not recall...)
         (What are you talking about? I do not see a ?y)
         (() ()))
+        
+        (((?* ?x) Who are you (?* ?y))      
+        (Woah dude. I"'"m just your subconcious. Do you need help?)
+        (() ()))
+        
+        (((?* ?x) Where am I (?* ?y))      
+        (I already told you. You"'"re in an escape room.)
+        (Just look around. You"'"ll see where you are.)
+        (() ()))
+        
+        (((?* ?x) I want to leave (?* ?y) game)      
+        (good bye)
+        (() ()))
+
+        (((?* ?x) I 'm done (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) I am done (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) I quit (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) I want (?* ?y))      
+        (Why do you want ?y ?)
+        (() ()))
 
         (((?* ?x))
         (Hm... I am not sure about that.)
@@ -53,6 +82,10 @@ This file defines all of the sets of rules for the game.
         (The door has two keyholes and a handle.)
         (() ()))
         
+        (((?* ?x) open (?* ?y) door)      
+        (The handle won"'"t turn"," it"'"s locked.)
+        (() ()))
+        
         (((?* ?x) go to (?* ?y) desk)      
         (The desk has a book and a small globe on it. There"'"s a locked drawer with a five-number combination.)
         ((look-at-desk) ()))
@@ -74,6 +107,11 @@ This file defines all of the sets of rules for the game.
         (You came in this way. You"'"re no quitter"," keep searching!)
         (() ()))
         
+        (((?* ?x) look at (?* ?y) other door)      
+        (They locked it when you came in"," but they said if you knock three times they will let you out.)
+        (You came in this way. You"'"re no quitter"," keep searching!)
+        (() ()))
+        
         (((?* ?x) go to (?* ?y) door)      
         (The door has two keyholes and a handle.)
         (() ()))
@@ -87,6 +125,18 @@ This file defines all of the sets of rules for the game.
         (?y ? Did I say that was in the room? I do not recall...)
         (What are you talking about? I do not see a ?y)
         (() ()))
+        
+    (((?* ?x) twist (?* ?y) handle)      
+    (The handle twists"," but the door won"'"t budge. It must be locked still.)
+    (() ()))
+    
+    (((?* ?x) insert (?* ?y) keys)      
+    (You don"'"t have a key.)
+    (() ()))
+    
+    (((?* ?x) insert (?* ?y) key)      
+    (You don"'"t have a key.)
+    (() ()))
 
         (((?* ?x) open (?* ?y) chest)      
         (Hey"," there"'"s a key in here! That was easy"," huh?)
@@ -95,7 +145,36 @@ This file defines all of the sets of rules for the game.
         (((?* ?x) look in (?* ?y) chest)      
         (Hey"," there"'"s a key in here! That was easy"," huh?)
         ((open-chest) ()))
+
+        (((?* ?x) move around (?* ?y) )      
+        (Okay"," you move around ?y)
+        (() ()))
+        
+        (((?* ?x) move the (?* ?y) )      
+        (The ?y won"'"t budge.)
+        (() ()))
+        
+        (((?* ?x) move (?* ?y) )      
+        (The ?y won"'"t budge.)
+        (() ()))
+        
+        (((?* ?x) look for (?* ?y) key)      
+        (That"'"s your job"," I"'"m not going to do EVERYTHING for you.)
+        (() ()))
+        
+        (((?* ?x) look for (?* ?y))      
+        (That"'"s your job"," I"'"m not going to do EVERYTHING for you.)
+        (() ()))
     )
+)
+
+(defparameter *only-1-key-rules*
+  '(
+        (((?* ?x) insert (?* ?y) key)      
+        (You insert the key and it unlocks the first lock"," but the door doesn"'"t open.
+        You take the key back.)
+        (() ()))
+  )
 )
 
 (defparameter *open-chest-rules*
@@ -105,6 +184,10 @@ This file defines all of the sets of rules for the game.
         ((first-key) (open-chest)))
         
         (((?* ?x) grab (?* ?y) key)      
+        (Cool"," you"'"ve got the key now.)
+        ((first-key) (open-chest)))
+        
+        (((?* ?x) pick up (?* ?y) key)      
         (Cool"," you"'"ve got the key now.)
         ((first-key) (open-chest)))
 
@@ -129,7 +212,7 @@ This file defines all of the sets of rules for the game.
 
     (((?* ?x) look at (?* ?y) book (?* ?z))      
     (It"'"s a book of poetry. Do you want to read it?)
-    (() ()))
+    ((want-to-read) ()))
     
     (((?* ?x) grab (?* ?y) book (?* ?z))      
     (Um okay. You are holding the book now.)
@@ -180,6 +263,22 @@ This file defines all of the sets of rules for the game.
     (Okay"," what is the combination?)
     ((enter-combo) ()))
     
+    (((?* ?x) put in (?* ?y) combination )      
+    (Okay"," what is the combination?)
+    ((enter-combo) ()))
+    
+    (((?* ?x) try (?* ?y) combination)      
+    (Okay"," what is the combination?)
+    ((enter-combo) ()))
+    
+    (((?* ?x) set (?* ?y) combination )      
+    (Okay"," what is the combination?)
+    ((enter-combo) ()))
+    
+    (((?* ?x) change (?* ?y) combination )      
+    (Okay"," what is the combination?)
+    ((enter-combo) ()))
+    
     (((?* ?x) combination (?* ?y))      
     (Nope"," still locked...)
     (() ()))
@@ -188,6 +287,22 @@ This file defines all of the sets of rules for the game.
     (It"'"s locked"," you need a five number combination to open it.)
     (What"'"s the number combination?)
     (() ()))
+    
+    (((?* ?x) go to (?* ?y) drawer)      
+    (Okay"," you"'"re at the drawer.)
+    (() ()))
+
+  )
+)
+
+(defparameter *want-to-read-rules*
+  '(
+    (((?* ?x) yes (?* ?y) )      
+    (It"'"s a book of poetry. One page 1 is a poem called "\"Green Pastures\"."  Page "2:" "\"Sky Blue\"," page "3:" "\"Blackness Abounding\","
+    page "4:" "\"White Clouds Above\"," page "5:" "\"Yellow Daisies\"," page "6:" "\"Orange: Color of My Soul\"," page "7:" "\"Purplish Murplish\","
+    page "8:" "\"Sad as the Gray\"," page "9:" "\"Love Potion Red\"." Intersting...)
+    ;; (want to read the book)
+    (() (want-to-read)))
 
   )
 )
@@ -209,6 +324,14 @@ This file defines all of the sets of rules for the game.
     (((?* ?x) take (?* ?y) key)      
     (Okay"," you took the key.)
     ((second-key) (open-drawer)))
+    
+    (((?* ?x) grab (?* ?y) key)      
+    (Okay"," you took the key.)
+    ((second-key) (open-drawer)))
+    
+    (((?* ?x) pick up (?* ?y) key)      
+    (Okay"," you took the key.)
+    ((second-key) (open-drawer)))
   )
 )
 
@@ -228,6 +351,10 @@ This file defines all of the sets of rules for the game.
   '(
     (((?* ?x) open (?* ?y) door)      
     (You open the door and enter the next room.)
+    ((second-room) (first-key second-key first-room first-door-open look-at-desk)))
+    
+    (((?* ?x) twist (?* ?y) handle)      
+    (The handle twists and you enter the next room.)
     ((second-room) (first-key second-key first-room first-door-open look-at-desk)))
 
     (((?* ?x) enter (?* ?y) room)      
@@ -255,6 +382,18 @@ This file defines all of the sets of rules for the game.
     ((first-door-open) (first-key second-key)))
     
     (((?* ?x) insert (?* ?y) key (?* ?z))      
+    (Perfect! You insert each key into a keyhole and they unlock the door.)
+    ((first-door-open) (first-key second-key)))
+    
+    (((?* ?x) put (?* ?y) key (?* ?z) in (?* ?a))      
+    (Perfect! You insert each key into a keyhole and they unlock the door.)
+    ((first-door-open) (first-key second-key)))
+    
+    (((?* ?x) try (?* ?y) keys (?* ?z))      
+    (Perfect! You insert each key into a keyhole and they unlock the door.)
+    ((first-door-open) (first-key second-key)))
+    
+    (((?* ?x) put (?* ?y) keys (?* ?z) in (?* ?a))      
     (Perfect! You insert each key into a keyhole and they unlock the door.)
     ((first-door-open) (first-key second-key)))
     
@@ -314,6 +453,10 @@ This file defines all of the sets of rules for the game.
         (Yeah okay"," you"'"ve been working hard and need a break.)
         (() ()))
         
+        (((?* ?x) search (?* ?y) couch)      
+        (You move the cushions around but can"'"t see anything important.)
+        (() ()))
+        
         (((?* ?x) move (?* ?y) couch)      
         (Ugh! It won"'"t budge.)
         (() ()))
@@ -348,6 +491,14 @@ This file defines all of the sets of rules for the game.
         (((?* ?x) keypad (?* ?y) 3722)      
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
+        
+        (((?* ?x) try (?* ?y) 3722)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+        
+        (((?* ?x) type (?* ?y) 3722)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
 
         (((?* ?y4) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2 (?* ?x) keypad (?* ?y) )      
         (The light turns green and you hear a click!)
@@ -357,7 +508,19 @@ This file defines all of the sets of rules for the game.
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
         
+        (((?* ?x) type (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+        
+        (((?* ?x) try (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+        
         (((?* ?x0) enter (?* ?x) combination 3722 (?* ?y))      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+        
+        (((?* ?x0) enter (?* ?x) 3722 (?* ?y))      
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
         
@@ -366,8 +529,12 @@ This file defines all of the sets of rules for the game.
         (() (enter-keypad-combo)))
 
         (((?* ?x0) enter (?* ?x) numbers (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
-        (Okay"," what numbers?)
-        ((closet-unlocked) ()))        
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))     
+        
+        (((?* ?x0) enter (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))     
 
         (((?* ?x0) enter (?* ?x) numbers (?* ?y))      
         (Okay"," what numbers?)
@@ -442,7 +609,19 @@ This file defines all of the sets of rules for the game.
         (It"'"s... A closet. There"'"s just a broom in here)
         (() ()))
         
+        (((?* ?x) enter (?* ?y) room)      
+        (It"'"s... A closet. There"'"s just a broom in here)
+        (() ()))
+        
+        (((?* ?x) enter through (?* ?y) door)      
+        (It"'"s... A closet. There"'"s just a broom in here)
+        (() ()))
+        
         (((?* ?x) leave (?* ?y) closet)      
+        (Okay"," you"'"re back in the second room.)
+        (() ()))
+        
+        (((?* ?x) exit (?* ?y) closet)      
         (Okay"," you"'"re back in the second room.)
         (() ()))
         
@@ -553,6 +732,21 @@ See, not too bad?\"")
 10 - - - - -\
 See, not too bad?\"") 
         (() ()))
+        
+        (((?* ?x) look (?* ?y) article)      
+        (Let"'"s see"," the article says":" "\"Morse Code is still important! Learn the numbers: \
+1 * - - - -\
+2 * * - - -\
+3 * * * - -\
+4 * * * * -\
+5 * * * * *\
+6 - * * * *\
+7 - - * * *\
+8 - - - * *\
+9 - - - - *\
+10 - - - - -\
+See, not too bad?\"") 
+        (() ()))
   )
 )
 
@@ -562,12 +756,40 @@ See, not too bad?\"")
         (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
         ((book1) ()))
         
+        (((?* ?x) read (?* ?y) Brave New World)      
+        (You try to take the book"," but it won"'"t come out. You hear a clicking sound. It just tips backwards. You push it back in.)
+        ((book1) ()))
+        
+        (((?* ?x) pick up (?* ?y) Brave New World)      
+        (You try to take the book"," but it won"'"t come out. You hear a clicking sound. It just tips backwards. You push it back in.)
+        ((book1) ()))
+        
+        (((?* ?x) pull out (?* ?y) Brave New World)      
+        (You try to take the book"," but it won"'"t come out. You hear a clicking sound. It just tips backwards. You push it back in.)
+        ((book1) ()))
+        
+        (((?* ?x) open (?* ?y) Brave New World)      
+        (You try to take the book"," but it won"'"t come out. You hear a clicking sound. It just tips backwards. You push it back in.)
+        ((book1) ()))
+        
         (((?* ?x) take (?* ?y) book)      
+        (Which book? There are"," like"," ten of them.)
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) book)      
+        (Which book? There are"," like"," ten of them.)
+        (() ()))
+        
+        (((?* ?x) open (?* ?y) book)      
         (Which book? There are"," like"," ten of them.)
         (() ()))
 
         (((?* ?x) take (?* ?y))      
         (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() ()))
+        
+        (((?* ?x) take (?* ?y))      
+        (The book won"'"t come out of the bookshelf. It just tips backwards. You push it back in.)
         (() ()))
         
         (((?* ?x) grab (?* ?y) Brave New World)      
@@ -581,12 +803,40 @@ See, not too bad?\"")
         (((?* ?x) grab (?* ?y))      
         (The book won"'"t come out. It just tips backwards. You push it back in.)
         (() ()))
+        
+        (((?* ?x) pick up (?* ?y))      
+        (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() (book3 book2 book1)))
+        
+        (((?* ?x) pull out (?* ?y))      
+        (The book won"'"t come out. It just tips backwards. You push it back in.)
+        (() (book3 book2 book1)))
   )
 )
 
 (defparameter *book1-rules*
   '(        
         (((?* ?x) take (?* ?y) Razor 's Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+        
+        (((?* ?x) take (?* ?y) Razors Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+
+        (((?* ?x) pick up (?* ?y) Razor 's Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+        
+        (((?* ?x) pick up (?* ?y) Razors Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+        
+        (((?* ?x) pull out (?* ?y) Razor 's Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+        
+        (((?* ?x) pull out (?* ?y) Razors Edge)      
         (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
         ((book2) (book1)))
 
@@ -599,6 +849,10 @@ See, not too bad?\"")
         (() (book1)))
         
         (((?* ?x) grab (?* ?y) Razor 's Edge)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book2) (book1)))
+        
+        (((?* ?x) grab (?* ?y) Razors Edge)      
         (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
         ((book2) (book1)))
 
@@ -615,6 +869,14 @@ See, not too bad?\"")
 (defparameter *book2-rules*
   '(
         (((?* ?x) take (?* ?y) Adventures of Huckleberry Finn)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book3) (book2)))
+        
+        (((?* ?x) pick up (?* ?y) Adventures of Huckleberry Finn)      
+        (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
+        ((book3) (book2)))
+        
+        (((?* ?x) pull out (?* ?y) Adventures of Huckleberry Finn)      
         (You hear a clicking sound"," but the book won"'"t come out. It just tips backwards. You push it back in.)
         ((book3) (book2)))
         
@@ -643,6 +905,16 @@ See, not too bad?\"")
 (defparameter *book3-rules*
   '(
         (((?* ?x) take (?* ?y) Dracula)      
+        (You hear a clicking sound"," but the book won"'"t come out. The bookshelf
+        makes a whirring noise and moves to the side"," revealing a tunnel.)
+        ((open-trap-door) (book3)))
+        
+        (((?* ?x) pick up (?* ?y) Dracula)      
+        (You hear a clicking sound"," but the book won"'"t come out. The bookshelf
+        makes a whirring noise and moves to the side"," revealing a tunnel.)
+        ((open-trap-door) (book3)))
+        
+        (((?* ?x) pull out (?* ?y) Dracula)      
         (You hear a clicking sound"," but the book won"'"t come out. The bookshelf
         makes a whirring noise and moves to the side"," revealing a tunnel.)
         ((open-trap-door) (book3)))
@@ -681,7 +953,7 @@ See, not too bad?\"")
         ((in-tunnel) (second-room)))
 
         (((?* ?x) crawl through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
         (() (second-room)))
         
         (((?* ?x) walk through (?* ?y) tunnel)      
@@ -689,7 +961,7 @@ See, not too bad?\"")
         (() ()))
         
         (((?* ?x) go through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
         (() (second-room)))
   )
 )
@@ -697,7 +969,15 @@ See, not too bad?\"")
 (defparameter *tunnel-rules*
   '(
         (((?* ?x) crawl through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped.)
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        (() ()))
+        
+        (((?* ?x) exit (?* ?y) tunnel)      
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        (() ()))
+        
+        (((?* ?x) leave (?* ?y) tunnel)      
+        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
         (() ()))
 
         (((?* ?x) look around (?* ?y))      
