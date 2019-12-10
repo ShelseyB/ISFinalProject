@@ -1,0 +1,26 @@
+open the chest
+ take the key
+go to the desk
+open the drawer with the combination 27975
+take the key
+go to the door
+insert the keys
+Open the door
+go to the door
+I enter the combination 3, 7, 2, 2
+open the door
+I look inside
+I take the broom
+I leave the closet
+I go to the bookshelf
+I grab Brave New World
+I take Razor's Edge
+I take Adventures of Huckleberry Fin
+I grab Brave New World
+I take Razor's Edge
+I take Adventures of Huckleberry Finn
+I take Dracula
+I enter the tunnel
+I look around
+I crawl through the tunnel
+I look around

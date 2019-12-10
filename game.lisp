@@ -7,7 +7,7 @@ This file defines all of the game-specific functions.
 (defparameter *welcome-message*
     "The day has finally arrived! You've saved up your money and are finally in \
     the world's greatest escape room! Now to just figure out how to get out... \
-    Just let me know what you want to do and I'll help you do it."
+    Just let me know what you want to do, and I'll help you do it."
 
 )
 
@@ -86,6 +86,9 @@ This file defines all of the game-specific functions.
     ;;   when (eq state 'start)
     ;;       do (setf all-rules (union all-rules *start-rules*))
     ;; )
+    (if (member 'first-door-open *cur-states*)
+        (setf all-rules (union all-rules *can-enter-next-room*))
+    )
     (if (member 'first-room *cur-states*)
         (progn
             (if (member 'look-at-desk *cur-states*)
@@ -114,9 +117,6 @@ This file defines all of the game-specific functions.
             )
             (setf all-rules (union all-rules *first-room-rules*))
         )
-    )
-    (if (member 'first-door-open *cur-states*)
-        (setf all-rules (union all-rules *can-enter-next-room*))
     )
     (if (member 'second-room *cur-states*)
         (progn

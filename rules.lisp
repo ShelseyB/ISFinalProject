@@ -78,6 +78,11 @@ This file defines all of the sets of rules for the game.
         (Do you really think that it will help to ?y ?)
         (() ()))
 
+        (((?* ?x) let me (?* ?y))      
+        (If I thought it would be helpful to ?y "," I would let you.)  
+        (Do you really think that it will help to ?y ?)
+        (() ()))
+
         (((?* ?x) I want (?* ?y))      
         (Why do you want ?y ?)    
         (Do you think that will help?)
@@ -169,6 +174,10 @@ This file defines all of the sets of rules for the game.
     (() ()))
     
     (((?* ?x) insert (?* ?y) keys)      
+    (You don"'"t have a key.)
+    (() ()))
+    
+    (((?* ?x) enter (?* ?y) keys)      
     (You don"'"t have a key.)
     (() ()))
     
@@ -428,6 +437,10 @@ This file defines all of the sets of rules for the game.
     (Perfect! You insert each key into a keyhole and they unlock the door.)
     ((first-door-open) (first-key second-key)))
     
+    (((?* ?x) enter (?* ?y) key (?* ?z))      
+    (Perfect! You insert each key into a keyhole and they unlock the door.)
+    ((first-door-open) (first-key second-key)))
+    
     (((?* ?x) put (?* ?y) key (?* ?z) in (?* ?a))      
     (Perfect! You insert each key into a keyhole and they unlock the door.)
     ((first-door-open) (first-key second-key)))
@@ -441,6 +454,10 @@ This file defines all of the sets of rules for the game.
     ((first-door-open) (first-key second-key)))
     
     (((?* ?x) insert (?* ?y) keys (?* ?z))      
+    (Perfect! You insert each key into a keyhole and they unlock the door.)
+    ((first-door-open) (first-key second-key)))
+    
+    (((?* ?x) enter (?* ?y) keys (?* ?z))      
     (Perfect! You insert each key into a keyhole and they unlock the door.)
     ((first-door-open) (first-key second-key)))
 
@@ -551,6 +568,10 @@ This file defines all of the sets of rules for the game.
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
 
+        (((?* ?y4) enter (?* ?y5) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2 (?* ?x))      
+        (The light turns green and you hear a click!)
+        ((closet-unlocked) ()))
+
         (((?* ?y4) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2 (?* ?x) keypad (?* ?y) )      
         (The light turns green and you hear a click!)
         ((closet-unlocked) ()))
@@ -577,7 +598,7 @@ This file defines all of the sets of rules for the game.
         
         (((?* ?x0) enter (?* ?x) combination (?* ?y))      
         (Okay"," what numbers?)
-        (() (enter-keypad-combo)))
+        ((enter-keypad-combo) ()))
 
         (((?* ?x0) enter (?* ?x) numbers (?* ?y) 3 (?* ?y1) 7 (?* ?y2) 2 (?* ?y3) 2)      
         (The light turns green and you hear a click!)
@@ -589,7 +610,7 @@ This file defines all of the sets of rules for the game.
 
         (((?* ?x0) enter (?* ?x) numbers (?* ?y))      
         (Okay"," what numbers?)
-        (() (enter-keypad-combo)))
+        ((enter-keypad-combo) ()))
         
         (((?* ?x) look at (?* ?y) lamp)      
         (It"'"s flickering on and off. It"'"s kinda like short short short long long
@@ -787,6 +808,10 @@ Morse Code:
 9 - - - - *\
 10 - - - - -\
 See, not too bad?\"") 
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) other article)      
+        (You skim the other article"," but it"'"s pretty boring. You don"'"t see anything useful in it.) 
         (() ()))
         
         (((?* ?x) read (?* ?y) article)      
@@ -1061,8 +1086,9 @@ See, not too bad?\"")
   )
 )
 
-'(defparameter *waiting-room-rules*
-        (((?* ?x) look around (?* ?y))      
+(defparameter *waiting-room-rules*
+    '(    
+      (((?* ?x) look around (?* ?y))      
         (There"'"s the same couch and coffee table with magazines you saw when you checked in. The same woman is at the front desk. The glass doors leading to the parking lot are there"," too.)
         (() ()))
         
@@ -1143,9 +1169,11 @@ See, not too bad?\"")
         (((?* ?x) go through (?* ?y) doors)      
         (good bye)
         (() ()))
+    )
 )
 
-'(defparameter *has-peppermint-rules*
+(defparameter *has-peppermint-rules*
+    '(
         (((?* ?x) eat (?* ?y) candy)      
         (You unwrap and eat the peppermint candy.)
         (() (has-peppermint)))
@@ -1157,5 +1185,5 @@ See, not too bad?\"")
         (((?* ?x) put in (?* ?y) pocket)      
         (The peppermint is safely in your pocket.)
         (() ()))
-
+    )
 )
