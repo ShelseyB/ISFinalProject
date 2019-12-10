@@ -41,8 +41,46 @@ This file defines all of the sets of rules for the game.
         (good bye)
         (() ()))
         
+        (((?* ?x) good bye (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) goodbye (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) I need (?* ?y) hint)      
+        (Have you tried looking around? Have you looked at every object in the room?)  
+        (Keep looking around"," checking different items.)
+        (Look for patterns and things that stick out. If it seems out of place"," maybe it"'"s a clue.)
+        (() ()))
+        
+        (((?* ?x) give (?* ?y) hint)      
+        (Have you tried looking around? Have you looked at every object in the room?)  
+        (Keep looking around"," checking different items.)
+        (Look for patterns and things that stick out. If it seems out of place"," maybe it"'"s a clue.)
+        (() ()))
+        
+        (((?* ?x) I am stuck (?* ?y))      
+        (Have you tried looking around? Have you looked at every object in the room?)  
+        (Keep looking around"," checking different items.)
+        (Look for patterns and things that stick out. If it seems out of place"," maybe it"'"s a clue.)
+        (() ()))
+        
+        (((?* ?x) I 'm stuck (?* ?y))      
+        (Have you tried looking around? Have you looked at every object in the room?)  
+        (Keep looking around"," checking different items.)
+        (Look for patterns and things that stick out. If it seems out of place"," maybe it"'"s a clue.)
+        (() ()))
+
+        (((?* ?x) I want to (?* ?y))      
+        (Why do you want to ?y ?)  
+        (Do you really think that it will help to ?y ?)
+        (() ()))
+
         (((?* ?x) I want (?* ?y))      
-        (Why do you want ?y ?)
+        (Why do you want ?y ?)    
+        (Do you think that will help?)
         (() ()))
 
         (((?* ?x))
@@ -213,6 +251,11 @@ This file defines all of the sets of rules for the game.
     (((?* ?x) look at (?* ?y) book (?* ?z))      
     (It"'"s a book of poetry. Do you want to read it?)
     ((want-to-read) ()))
+    
+    (((?* ?x) read (?* ?y) poem (?* ?z))      
+    (Come on"," man"," we don"'"t have time for that.)
+    (Boring! No thanks.)
+    (() ()))
     
     (((?* ?x) grab (?* ?y) book (?* ?z))      
     (Um okay. You are holding the book now.)
@@ -457,6 +500,14 @@ This file defines all of the sets of rules for the game.
         (You move the cushions around but can"'"t see anything important.)
         (() ()))
         
+        (((?* ?x) move (?* ?y) couch cushions)      
+        (You move the cushions around but can"'"t see anything important.)
+        (() ()))
+        
+        (((?* ?x) take (?* ?y) couch cushions)      
+        (You move the cushions around but can"'"t see anything important.)
+        (() ()))
+        
         (((?* ?x) move (?* ?y) couch)      
         (Ugh! It won"'"t budge.)
         (() ()))
@@ -601,6 +652,14 @@ This file defines all of the sets of rules for the game.
         (It"'"s... A closet. There"'"s just a broom in here)
         (() ()))
         
+        (((?* ?x) look through (?* ?y) doorway)      
+        (It"'"s... A closet. There"'"s just a broom in here)
+        (() ()))
+        
+        (((?* ?x) look inside (?* ?y))      
+        (It"'"s... A closet. There"'"s just a broom in here)
+        (() ()))
+        
         (((?* ?x) look into (?* ?y) room)      
         (It"'"s... A closet. There"'"s just a broom in here)
         (() ()))
@@ -621,6 +680,10 @@ This file defines all of the sets of rules for the game.
         (Okay"," you"'"re back in the second room.)
         (() ()))
         
+        (((?* ?x) go back (?* ?y))      
+        (Okay"," you"'"re back in the second room.)
+        (() ()))
+        
         (((?* ?x) exit (?* ?y) closet)      
         (Okay"," you"'"re back in the second room.)
         (() ()))
@@ -629,11 +692,19 @@ This file defines all of the sets of rules for the game.
         (It"'"s... A closet. There"'"s just a broom in here)
         (() ()))
         
-        (((?* ?x) take (?* ?y) broom)      
+        (((?* ?x) take (?* ?y) broom (?* ?z))      
+        (Yeah"," okay. You have the broom now. Have fun.)
+        ((have-broom) ()))
+        '
+        (((?* ?x) grab (?* ?y) broom)      
         (Yeah"," okay. You have the broom now. Have fun.)
         ((have-broom) ()))
         
-        (((?* ?x) grab (?* ?y) broom)      
+        (((?* ?x) pick up (?* ?y) broom)      
+        (Yeah"," okay. You have the broom now. Have fun.)
+        ((have-broom) ()))
+        
+        (((?* ?x) move (?* ?y) broom)      
         (Yeah"," okay. You have the broom now. Have fun.)
         ((have-broom) ()))
 
@@ -773,6 +844,10 @@ See, not too bad?\"")
         ((book1) ()))
         
         (((?* ?x) take (?* ?y) book)      
+        (Which book? There are"," like"," ten of them.)
+        (() ()))
+        
+        (((?* ?x) try (?* ?y) book)      
         (Which book? There are"," like"," ten of them.)
         (() ()))
         
@@ -946,42 +1021,141 @@ See, not too bad?\"")
   '(
         (((?* ?x) enter (?* ?y) tunnel)      
         (You enter the tunnel.)
-        ((in-tunnel) (second-room)))
+        ((in-tunnel) (second-room open-trap-door)))
         
         (((?* ?x) into (?* ?y) tunnel)      
         (You enter the tunnel.)
         ((in-tunnel) (second-room)))
 
         (((?* ?x) crawl through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
-        (() (second-room)))
+        (You crawl through the tunnel and enter back into the room where you checked in. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        ((waiting-room) (second-room open-trap-door)))
         
         (((?* ?x) walk through (?* ?y) tunnel)      
         (The ceiling"'"s too low. You"'"re going to have to crawl to get through it.)
         (() ()))
         
         (((?* ?x) go through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
-        (() (second-room)))
+        (You crawl through the tunnel and enter back into the room where you checked in. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        ((waiting-room) (second-room open-trap-door)))
   )
 )
 
 (defparameter *tunnel-rules*
   '(
         (((?* ?x) crawl through (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
-        (() ()))
+        (You crawl through the tunnel and enter back into the room where you checked in. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        ((waiting-room) (in-tunnel open-trap-door)))
         
         (((?* ?x) exit (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
-        (() ()))
+        (You crawl through the tunnel and enter back into the room where you checked in. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        ((waiting-room) (in-tunnel open-trap-door)))
         
         (((?* ?x) leave (?* ?y) tunnel)      
-        (You crawl through the tunnel and enter a room full of trophies. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
-        (() ()))
+        (You crawl through the tunnel and enter back into the room where you checked in. You did it! You escaped. Feel free to look around. Let me know when you"'"re ready to leave.)
+        ((waiting-room) (in-tunnel open-trap-door)))
 
         (((?* ?x) look around (?* ?y))      
         (It"'"s really dark and you can"'"t see anything.)
         (() ()))
   )
+)
+
+'(defparameter *waiting-room-rules*
+        (((?* ?x) look around (?* ?y))      
+        (There"'"s the same couch and coffee table with magazines you saw when you checked in. The same woman is at the front desk. The glass doors leading to the parking lot are there"," too.)
+        (() ()))
+        
+        (((?* ?x) look (?* ?y) couch)      
+        (A much nicer couch than was in the escape room itself. Looks comfy.)
+        (() ()))
+        
+        (((?* ?x) go to (?* ?y) couch)      
+        (A much nicer couch than was in the escape room itself. Looks comfy.)
+        (() ()))
+
+        (((?* ?x) sit (?* ?y) couch)      
+        (Um... I think the receptionist would think it strange if you did that. You already finished the game"," didn"'"t you?)
+        (() ()))
+        
+        (((?* ?x) look (?* ?y) coffee table)      
+        (It"'"s covered in boring magazines.)
+        (() ()))
+        
+        (((?* ?x) go to (?* ?y) coffee table)      
+        (It"'"s covered in boring magazines.)
+        (() ()))
+        
+        (((?* ?x) look (?* ?y) magazines)      
+        (Just some boring car magazines and a few Forbes.)
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) magazines (?* ?z))      
+        (Don"'"t you have something better to do with the rest of your day?)
+        (() ()))
+        
+        (((?* ?x) read (?* ?y) magazine (?* ?z))      
+        (Don"'"t you have something better to do with the rest of your day?)
+        (() ()))
+        
+        (((?* ?x) look (?* ?y) desk)      
+        (You surreptisiously sneak a peek at the front desk. There"'"s a jar of candies and some business cards.)
+        (() ()))
+        
+        (((?* ?x) go to (?* ?y) desk)      
+        (You surreptisiously sneak a peek at the front desk. There"'"s a jar of candies and some business cards.)
+        (() ()))
+        
+        (((?* ?x) take (?* ?y) business card)      
+        (While the receptionist isn"'"t looking you grab a business card. "\"Escape Games, Inc.\"" with the address of the building you"'"re currently in on it.)
+        (() ()))
+        
+        (((?* ?x) look (?* ?y) business card)      
+        (While the receptionist isn"'"t looking you grab a business card. "\"Escape Games, Inc.\"" with the address of the building you"'"re currently in on it.)
+        (() ()))
+        
+        (((?* ?x) take (?* ?y) candy)      
+        (While the receptionist isn"'"t looking you grab one of the peppermint candies.)
+        ((has-peppermint) ()))
+        
+        (((?* ?x) eat (?* ?y) candy)      
+        (You don"'"t have a candy"," they"'"re still on the desk.)
+        (() ()))
+        
+        (((?* ?x) talk (?* ?y) receptionist)      
+        (She"'"s on the phone"," but she smiles at you when you look over at her.)
+        (She looks busy.)
+        (() ()))
+        
+        (((?* ?x) say (?* ?y) receptionist)      
+        (She"'"s on the phone"," but she smiles at you when you look over at her.)
+        (She looks busy.)
+        (() ()))
+        
+        (((?* ?x) play again (?* ?y))      
+        (Okay"," if you want to. You go to the receptionist and give her your money. She takes you back to the first room in the escape room.)
+        ((first-room) (waiting-room)))
+        
+        (((?* ?x) leave (?* ?y))      
+        (good bye)
+        (() ()))
+        
+        (((?* ?x) go through (?* ?y) doors)      
+        (good bye)
+        (() ()))
+)
+
+'(defparameter *has-peppermint-rules*
+        (((?* ?x) eat (?* ?y) candy)      
+        (You unwrap and eat the peppermint candy.)
+        (() (has-peppermint)))
+        
+        (((?* ?x) throw away (?* ?y) candy)      
+        (Where? You don"'"t see a trash can. Just put it in your pocket.)
+        (() ()))
+        
+        (((?* ?x) put in (?* ?y) pocket)      
+        (The peppermint is safely in your pocket.)
+        (() ()))
+
 )

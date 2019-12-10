@@ -28,15 +28,10 @@ This file defines all of the game-specific functions.
 
 (defun use-rules (input)
   "Find some rule with which to transform the input."
-  ;; (print "in use rules")
   (some #'(lambda (rule)
-            ;; (print rule)
             (let ((result (pat-match (rule-pattern rule) input)))
               (if (not (eq result fail))
                 (progn
-                    ;; (print input)
-                  ;; (print "in progn")
-                  ;; (print rule)
                   (add-state (first (first (last rule))))
                   (remove-states (rest (first (last rule))))
                   (sublis (switch-viewpoint result)
@@ -51,30 +46,19 @@ This file defines all of the game-specific functions.
           words))
 
 (defun add-state (states-to-add)
-  ;; (setf states-to-add (first states-to-add))
-  ;; (print states-to-add)
+  "Take a list of states and add them to the list of current states."
   (if (not (null states-to-add))
-    ;; (progn
-    ;;   ;; (print "in the if statement")
-    ;;   (defparameter *cur-states* (union *cur-states* states-to-add))
-    ;;   ;; (print *cur-states*)
-    ;; )
     (defparameter *cur-states* (union *cur-states* states-to-add))
     '()
   )
-  ;; (print "in add-state")
-  ;; (print states-to-add)
-  ;; (print *cur-states*)
-  ;; (defparameter *cur-states* (union *cur-states* states-to-add))
-  ;; (print *cur-states*)
 )
 
 (defun remove-states (to-remove)
+  "Take a list of states and remove them from the list of current states."
   (setf to-remove (first to-remove))
   (loop for state in to-remove
       do (defparameter *cur-states* (remove state *cur-states*))
   )
-  ;; (print *cur-states*)
 )
 
 (defun read-line-no-punct ()
@@ -177,6 +161,14 @@ This file defines all of the game-specific functions.
     )
     (if (member 'in-tunnel *cur-states*)
         (setf all-rules (union all-rules *tunnel-rules*))
+    )
+    (if (member 'waiting-room *cur-states*)
+        (progn
+            (if (member 'has-peppermint *cur-states*)
+                (setf all-rules (union all-rules *has-peppermint-rules*))
+            )
+            (setf all-rules (union all-rules *waiting-room-rules*))
+        )
     )
     (setf all-rules (union all-rules *base-rules*))
     ;; (print all-rules)
