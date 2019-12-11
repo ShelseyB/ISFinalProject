@@ -1,13 +1,14 @@
-### Welcome to The Escape Room Game
+## Welcome to The Escape Room Game
 
-The Escape Room Game is a text-based game where the player tries to escape
+The Escape Room Game is a text-based game using CLisp and symbolic pattern matching
+ where the player tries to escape
 an escape room by solving a series of puzzles.
 
-## Prerequisites
+### Prerequisites
 
 CLisp must be installed before the game can be run.
 
-## Instructions to Run the Code
+### Instructions to Run the Code
 
 To play, open a terminal, start CLisp, then type the following commands:
 ```
